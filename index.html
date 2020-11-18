@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Groceries List - AngularJS</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/toastr.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container" ng-controller="GroceriesListController">
+        <div class="row">
+            <div class="page-header">
+                <div class="span9">
+                    <h1>Lista de compras</h1>
+                </div>
+                <div class="span3">
+                    <input type="search" ng-model="search" placeholder="Buscar...">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <table id="lista-compras" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Comprado?</th>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in items | filter:search" class="comprado-{{ item.bought }}">
+                        <td>
+                            <input type="checkbox" ng-model="item.bought">
+                        </td>
+                        <td>
+                            <strong>{{item.name}}</strong>
+                        </td>
+                        <td>
+                            {{item.amount}}
+                        </td>
+                        <td>
+                            <button class="btn btn-warning btn-small" ng-click="editItem($index)">
+                                <i class="icon-pencil icon-white"></i> editar
+                            </button>
+                            <button class="btn btn-danger btn-small" ng-click="removeItem($index)">
+                                <i class="icon-trash icon-white"></i> deletar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <form class="row form-inline" name="form">
+            <input type="text" ng-model="item.produto" placeholder="Maçãs" required>
+            <input type="number" ng-model="item.quantidade" placeholder="2" class="input-small" required>
+            <button ng-hide="edit" class="btn btn-success" ng-disabled="form.$invalid" ng-click="addItem()">
+                <i class="icon-plus icon-white"></i> adicionar
+            </button>
+            <button ng-hide="edit" class="btn btn-success" ng-disabled="form.$invalid" ng-click="applyChanges()">
+                <i class="icon-ok icon-white"></i>
+            </button>
+
+        </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/toastr.min.js"></script>
+    <script src="app/controllers.js"></script>
+</body>
+</html>
